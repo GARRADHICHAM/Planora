@@ -1,34 +1,86 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0f0f0f;
-  --surface: #1a1a1a;
-  --surface-2: #242424;
-  --border: #2e2e2e;
-  --text: #e8e8e8;
-  --text-muted: #888;
-  --accent: #6366f1;
-  --accent-hover: #4f46e5;
-  --danger: #ef4444;
-  --success: #22c55e;
-  --warning: #f59e0b;
+/* ── Dark theme (default) ───────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  --bg: #0c0c0f;
+  --surface: #131316;
+  --surface-2: #1c1c21;
+  --surface-3: #242429;
+  --border: #2a2a30;
+  --border-subtle: #1f1f24;
+  --text: #f0f0f4;
+  --text-muted: #6b6b7a;
+  --text-subtle: #4a4a58;
+  --accent: #7c6ff7;
+  --accent-light: #9d98f9;
+  --accent-bg: rgba(124, 111, 247, 0.12);
+  --danger: #f05050;
+  --danger-bg: rgba(240, 80, 80, 0.1);
+  --success: #34d399;
+  --success-bg: rgba(52, 211, 153, 0.1);
+  --warning: #fbbf24;
+  --warning-bg: rgba(251, 191, 36, 0.1);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
 }
 
-* {
+/* ── Light theme ────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg: #f4f4f8;
+  --surface: #ffffff;
+  --surface-2: #f0f0f5;
+  --surface-3: #e8e8ef;
+  --border: #e2e2ea;
+  --border-subtle: #ebebf2;
+  --text: #111118;
+  --text-muted: #6b6b80;
+  --text-subtle: #a0a0b8;
+  --accent: #6155e8;
+  --accent-light: #7c70f5;
+  --accent-bg: rgba(97, 85, 232, 0.08);
+  --danger: #e03e3e;
+  --danger-bg: rgba(224, 62, 62, 0.08);
+  --success: #16a34a;
+  --success-bg: rgba(22, 163, 74, 0.08);
+  --warning: #d97706;
+  --warning-bg: rgba(217, 119, 6, 0.08);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.07);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+/* ── Reset ──────────────────────────────────────────────── */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  background: var(--background);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  height: 100vh;
-  overflow: hidden;
+html, body {
+  height: 100%;
 }
 
-/* FullCalendar dark theme overrides */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+/* ── FullCalendar dark/light theme ─────────────────────── */
 .fc {
   --fc-border-color: var(--border);
   --fc-button-bg-color: var(--surface-2);
@@ -38,64 +90,65 @@ body {
   --fc-button-active-bg-color: var(--accent);
   --fc-button-active-border-color: var(--accent);
   --fc-button-text-color: var(--text);
-  --fc-today-bg-color: rgba(99, 102, 241, 0.1);
+  --fc-today-bg-color: var(--accent-bg);
   --fc-page-bg-color: var(--surface);
   --fc-neutral-bg-color: var(--surface-2);
   --fc-list-event-hover-bg-color: var(--surface-2);
   --fc-event-bg-color: var(--accent);
   --fc-event-border-color: var(--accent);
   color: var(--text);
+  font-family: inherit;
 }
 
 .fc .fc-toolbar-title {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .fc .fc-col-header-cell-cushion,
 .fc .fc-daygrid-day-number {
   color: var(--text-muted);
   text-decoration: none;
-}
-
-.fc .fc-daygrid-day-number:hover {
-  color: var(--text);
+  font-size: 0.8rem;
 }
 
 .fc .fc-event {
-  border-radius: 4px;
+  border-radius: 5px;
   font-size: 0.75rem;
   cursor: pointer;
+  border: none;
+  padding: 1px 5px;
 }
 
 .fc .fc-button {
-  border-radius: 6px;
-  font-size: 0.8rem;
-  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  padding: 5px 12px;
   text-transform: capitalize;
+  font-weight: 500;
+  box-shadow: none !important;
 }
 
 .fc-theme-standard td,
-.fc-theme-standard th {
-  border-color: var(--border);
-}
-
+.fc-theme-standard th,
 .fc-theme-standard .fc-scrollgrid {
   border-color: var(--border);
 }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+.fc .fc-daygrid-day.fc-day-today {
+  background: var(--accent-bg);
 }
 
-::-webkit-scrollbar {
-  width: 6px;
+/* ── Input base ─────────────────────────────────────────── */
+input, textarea, select {
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--text);
 }
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 3px;
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+  cursor: pointer;
 }
