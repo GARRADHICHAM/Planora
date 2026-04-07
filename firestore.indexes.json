@@ -47,6 +47,14 @@
         { "fieldPath": "userId", "order": "ASCENDING" },
         { "fieldPath": "importId", "order": "ASCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "calendar_imports",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "importedAt", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []

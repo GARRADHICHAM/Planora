@@ -175,13 +175,16 @@ export default function CalendarPage() {
   }
 
   async function deleteImport(imp) {
+    if (!user) return;
     setDeletingImportId(imp.id);
     try {
-      // Delete all events with this importId
-      const q = query(collection(db, 'events'), where('importId', '==', imp.id));
+      const q = query(
+        collection(db, 'events'),
+        where('userId', '==', user.uid),
+        where('importId', '==', imp.id)
+      );
       const snap = await getDocs(q);
       await Promise.all(snap.docs.map((d) => deleteDoc(d.ref)));
-      // Delete the import record
       await deleteDoc(doc(db, 'calendar_imports', imp.id));
     } finally {
       setDeletingImportId(null);
