@@ -3,7 +3,7 @@
 /* ── Dark theme (default) ───────────────────────────────── */
 :root,
 [data-theme="dark"] {
-  --bg: #0c0c0f;
+  --background: #0c0c0f;
   --surface: #131316;
   --surface-2: #1c1c21;
   --surface-3: #242429;
@@ -28,7 +28,7 @@
 
 /* ── Light theme ────────────────────────────────────────── */
 [data-theme="light"] {
-  --bg: #f4f4f8;
+  --background: #f4f4f8;
   --surface: #ffffff;
   --surface-2: #f0f0f5;
   --surface-3: #e8e8ef;
@@ -63,12 +63,13 @@ html, body {
 }
 
 body {
-  background: var(--bg);
+  background: var(--background);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
   font-size: 14px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  transition: background 0.2s, color 0.2s;
 }
 
 /* ── Scrollbar ──────────────────────────────────────────── */
@@ -80,7 +81,7 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
-/* ── FullCalendar dark/light theme ─────────────────────── */
+/* ── FullCalendar theme ─────────────────────────────────── */
 .fc {
   --fc-border-color: var(--border);
   --fc-button-bg-color: var(--surface-2);
@@ -140,7 +141,7 @@ body {
   background: var(--accent-bg);
 }
 
-/* ── Input base ─────────────────────────────────────────── */
+/* ── Inputs ─────────────────────────────────────────────── */
 input, textarea, select {
   font-family: inherit;
   font-size: 0.875rem;
