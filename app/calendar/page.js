@@ -222,7 +222,7 @@ export default function CalendarPage() {
       <div style={{ flex: 1, background: 'var(--surface)', borderRadius: '12px', padding: '16px', overflow: 'hidden' }}>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-          initialView="dayGridMonth"
+          initialView="timeGridWeek"
           headerToolbar={{
             left: 'prev,next today',
             center: 'title',
