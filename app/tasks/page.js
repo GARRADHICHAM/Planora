@@ -11,7 +11,7 @@ import { useAuth } from '@/context/AuthContext';
 const PRIORITIES = ['low', 'medium', 'high'];
 const priorityColor = { low: '#22c55e', medium: '#f59e0b', high: '#ef4444' };
 
-const emptyTaskForm = { title: '', priority: 'medium', dueDate: '', sectionId: '' };
+const emptyTaskForm = { title: '', description: '', priority: 'medium', dueDate: '', sectionId: '' };
 const emptySectionForm = { name: '' };
 
 export default function TasksPage() {
@@ -85,7 +85,7 @@ export default function TasksPage() {
     const dueDate = task.dueDate?.toDate
       ? task.dueDate.toDate().toISOString().slice(0, 10)
       : task.dueDate || '';
-    setTaskForm({ title: task.title, priority: task.priority || 'medium', dueDate, sectionId: task.sectionId || '' });
+    setTaskForm({ title: task.title, description: task.description || '', priority: task.priority || 'medium', dueDate, sectionId: task.sectionId || '' });
     setEditTaskId(task.id);
     setShowTaskModal(true);
   }
@@ -94,6 +94,7 @@ export default function TasksPage() {
     if (!taskForm.title.trim() || !user) return;
     const data = {
       title: taskForm.title,
+      description: taskForm.description,
       priority: taskForm.priority,
       dueDate: taskForm.dueDate ? Timestamp.fromDate(new Date(taskForm.dueDate)) : null,
       sectionId: taskForm.sectionId || null,
@@ -234,9 +235,15 @@ export default function TasksPage() {
                 placeholder="Task title *"
                 value={taskForm.title}
                 onChange={(e) => setTaskForm({ ...taskForm, title: e.target.value })}
-                onKeyDown={(e) => e.key === 'Enter' && saveTask()}
                 style={inputStyle}
                 autoFocus
+              />
+              <textarea
+                placeholder="Description (optional)"
+                value={taskForm.description}
+                onChange={(e) => setTaskForm({ ...taskForm, description: e.target.value })}
+                rows={3}
+                style={{ ...inputStyle, resize: 'vertical' }}
               />
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
@@ -334,14 +341,21 @@ function TaskCard({ task, onToggle, onEdit, formatDate }) {
         )}
       </button>
 
-      {/* Title */}
-      <span style={{
-        flex: 1, fontSize: '0.875rem', fontWeight: '400',
-        color: task.done ? 'var(--text-muted)' : 'var(--text)',
-        textDecoration: task.done ? 'line-through' : 'none',
-      }}>
-        {task.title}
-      </span>
+      {/* Title + description */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <span style={{
+          fontSize: '0.875rem', fontWeight: '400',
+          color: task.done ? 'var(--text-muted)' : 'var(--text)',
+          textDecoration: task.done ? 'line-through' : 'none',
+        }}>
+          {task.title}
+        </span>
+        {task.description && (
+          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {task.description}
+          </div>
+        )}
+      </div>
 
       {/* Priority dot */}
       <div style={{
