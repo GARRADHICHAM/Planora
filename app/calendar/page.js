@@ -229,6 +229,7 @@ export default function CalendarPage() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
           }}
           events={events}
+          firstDay={1}
           selectable
           select={openNew}
           eventClick={openEdit}
