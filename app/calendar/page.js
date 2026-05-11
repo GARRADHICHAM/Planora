@@ -13,6 +13,7 @@ import {
 import { Plus, Upload, X, Trash2, CalendarDays } from 'lucide-react';
 import ICAL from 'ical.js';
 import { useAuth } from '@/context/AuthContext';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const EVENT_COLORS = [
   { label: 'Indigo', value: '#6366f1' },
@@ -35,6 +36,7 @@ const emptyForm = {
 
 export default function CalendarPage() {
   const { user } = useAuth();
+  const isMobile = useIsMobile();
   const [events, setEvents] = useState([]);
   const [imports, setImports] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -198,11 +200,11 @@ export default function CalendarPage() {
   };
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', padding: '24px' }}>
+    <div style={{ height: isMobile ? 'calc(100vh - 70px)' : '100vh', display: 'flex', flexDirection: 'column', padding: isMobile ? '12px' : '24px' }}>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <h2 style={{ fontSize: '1.4rem', fontWeight: '700' }}>Calendar</h2>
-        <div style={{ display: 'flex', gap: '10px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+        <h2 style={{ fontSize: '1.2rem', fontWeight: '700' }}>Calendar</h2>
+        <div style={{ display: 'flex', gap: '8px' }}>
           {imports.length > 0 && (
             <button onClick={() => setShowImportsPanel(true)} style={btnStyle('secondary')}>
               <CalendarDays size={15} /> Imported ({imports.length})
@@ -222,7 +224,7 @@ export default function CalendarPage() {
       <div style={{ flex: 1, background: 'var(--surface)', borderRadius: '12px', padding: '16px', overflow: 'hidden' }}>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-          initialView="timeGridWeek"
+          initialView={isMobile ? 'listWeek' : 'timeGridWeek'}
           headerToolbar={{
             left: 'prev,next today',
             center: 'title',

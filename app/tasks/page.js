@@ -7,6 +7,7 @@ import {
 } from 'firebase/firestore';
 import { Plus, X, Trash2, ChevronDown, ChevronRight } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const PRIORITIES = ['low', 'medium', 'high'];
 const priorityColor = { low: '#22c55e', medium: '#f59e0b', high: '#ef4444' };
@@ -16,6 +17,7 @@ const emptySectionForm = { name: '' };
 
 export default function TasksPage() {
   const { user } = useAuth();
+  const isMobile = useIsMobile();
   const [sections, setSections] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [collapsed, setCollapsed] = useState({});
@@ -139,17 +141,24 @@ export default function TasksPage() {
   const unsectionedTasks = tasks.filter((t) => !t.sectionId);
 
   return (
-    <div style={{ padding: '24px', maxWidth: '760px', margin: '0 auto' }}>
+    <div style={{ padding: isMobile ? '16px' : '24px', maxWidth: '760px', margin: '0 auto' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
         <h2 style={{ fontSize: '1.4rem', fontWeight: '700' }}>Tasks</h2>
         <div style={{ display: 'flex', gap: '8px' }}>
-          <button onClick={openNewSection} style={btnStyle('secondary')}>
-            <Plus size={14} /> New Section
-          </button>
+          {!isMobile && (
+            <button onClick={openNewSection} style={btnStyle('secondary')}>
+              <Plus size={14} /> New Section
+            </button>
+          )}
           <button onClick={() => openNewTask(null)} style={btnStyle('primary')}>
-            <Plus size={14} /> New Task
+            <Plus size={14} /> {isMobile ? 'Task' : 'New Task'}
           </button>
+          {isMobile && (
+            <button onClick={openNewSection} style={btnStyle('secondary')}>
+              <Plus size={14} /> Section
+            </button>
+          )}
         </div>
       </div>
 

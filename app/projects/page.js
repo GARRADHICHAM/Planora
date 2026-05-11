@@ -4,8 +4,9 @@ import { db } from '@/lib/firebase';
 import {
   collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, Timestamp, query, orderBy, where,
 } from 'firebase/firestore';
-import { Plus, X, Trash2, ChevronDown, ChevronRight, Zap } from 'lucide-react';
+import { Plus, X, Trash2, ChevronDown, ChevronRight, Zap, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const TASK_STATUSES = ['todo', 'in progress', 'done'];
 const statusColor = { todo: '#888', 'in progress': '#6366f1', done: '#22c55e' };
@@ -18,6 +19,7 @@ const PROJECT_COLORS = ['#6366f1', '#f43f5e', '#10b981', '#f59e0b', '#0ea5e9', '
 
 export default function ProjectsPage() {
   const { user } = useAuth();
+  const isMobile = useIsMobile();
   const [projects, setProjects] = useState([]);
   const [sprints, setSprints] = useState([]);
   const [projectTasks, setProjectTasks] = useState([]);
@@ -174,12 +176,17 @@ export default function ProjectsPage() {
 
   const backlogTasks = projectTasks.filter((t) => !t.sprintId);
 
+  const showList = !isMobile || !selectedProject;
+  const showDetail = !isMobile || !!selectedProject;
+
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
+    <div style={{ display: 'flex', height: '100%' }}>
       {/* Projects list */}
+      {showList && (
       <div style={{
-        width: '240px', minWidth: '240px',
-        borderRight: '1px solid var(--border)',
+        width: isMobile ? '100%' : '240px',
+        minWidth: isMobile ? 'unset' : '240px',
+        borderRight: isMobile ? 'none' : '1px solid var(--border)',
         background: 'var(--surface)',
         display: 'flex', flexDirection: 'column',
       }}>
@@ -231,13 +238,19 @@ export default function ProjectsPage() {
           ))}
         </div>
       </div>
+      )}
 
       {/* Project detail */}
-      {selectedProject ? (
-        <div style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
+      {showDetail && (selectedProject ? (
+        <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '16px' : '24px' }}>
           {/* Header */}
           <div style={{ marginBottom: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+              {isMobile && (
+                <button onClick={() => setSelectedProject(null)} style={iconBtnStyle} title="Back">
+                  <ArrowLeft size={18} />
+                </button>
+              )}
               <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: selectedProject.color || '#6366f1' }} />
               <h2 style={{ fontSize: '1.4rem', fontWeight: '700' }}>{selectedProject.name}</h2>
             </div>
@@ -392,7 +405,7 @@ export default function ProjectsPage() {
             <Plus size={15} /> New Project
           </button>
         </div>
-      )}
+      ))}
 
       {/* Project Modal */}
       {showProjectModal && (

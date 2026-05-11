@@ -141,6 +141,30 @@ body {
   background: var(--accent-bg);
 }
 
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  body {
+    height: 100%;
+    overflow: auto;
+  }
+
+  /* Calendar mobile tweaks */
+  .fc .fc-toolbar {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .fc .fc-toolbar-title {
+    font-size: 0.9rem;
+  }
+  .fc .fc-button {
+    font-size: 0.72rem;
+    padding: 4px 8px;
+  }
+  .fc-header-toolbar {
+    gap: 4px !important;
+  }
+}
+
 /* ── Inputs ─────────────────────────────────────────────── */
 input, textarea, select {
   font-family: inherit;
