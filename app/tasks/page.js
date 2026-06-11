@@ -147,15 +147,15 @@ export default function TasksPage() {
         <h2 style={{ fontSize: '1.4rem', fontWeight: '700' }}>Tasks</h2>
         <div style={{ display: 'flex', gap: '8px' }}>
           {!isMobile && (
-            <button onClick={openNewSection} style={btnStyle('secondary')}>
+            <button onClick={openNewSection} className="btn btn-secondary">
               <Plus size={14} /> New Section
             </button>
           )}
-          <button onClick={() => openNewTask(null)} style={btnStyle('primary')}>
+          <button onClick={() => openNewTask(null)} className="btn btn-primary">
             <Plus size={14} /> {isMobile ? 'Task' : 'New Task'}
           </button>
           {isMobile && (
-            <button onClick={openNewSection} style={btnStyle('secondary')}>
+            <button onClick={openNewSection} className="btn btn-secondary">
               <Plus size={14} /> Section
             </button>
           )}
@@ -190,7 +190,7 @@ export default function TasksPage() {
           <div key={section.id} style={{ marginBottom: '28px' }}>
             {/* Section header */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px', paddingBottom: '8px', borderBottom: '1px solid var(--border)' }}>
-              <button onClick={() => toggleCollapse(section.id)} style={iconBtnStyle}>
+              <button onClick={() => toggleCollapse(section.id)} className="icon-btn">
                 {isCollapsed ? <ChevronRight size={15} /> : <ChevronDown size={15} />}
               </button>
               <span
@@ -225,7 +225,8 @@ export default function TasksPage() {
       {sections.length > 0 && unsectionedTasks.length === 0 && (
         <button
           onClick={() => openNewTask(null)}
-          style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '0.83rem', padding: '6px 0', marginBottom: '8px' }}
+          className="ghost-btn"
+          style={{ marginBottom: '8px' }}
         >
           <Plus size={14} /> Add task
         </button>
@@ -233,18 +234,18 @@ export default function TasksPage() {
 
       {/* Task Modal */}
       {showTaskModal && (
-        <div style={overlayStyle} onClick={(e) => e.target === e.currentTarget && setShowTaskModal(false)}>
-          <div style={modalStyle}>
+        <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && setShowTaskModal(false)}>
+          <div className="modal">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
               <h3 style={{ fontWeight: '700', fontSize: '1rem' }}>{editTaskId ? 'Edit Task' : 'New Task'}</h3>
-              <button onClick={() => setShowTaskModal(false)} style={iconBtnStyle}><X size={16} /></button>
+              <button onClick={() => setShowTaskModal(false)} className="icon-btn"><X size={16} /></button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <input
                 placeholder="Task title *"
                 value={taskForm.title}
                 onChange={(e) => setTaskForm({ ...taskForm, title: e.target.value })}
-                style={inputStyle}
+                className="input"
                 autoFocus
               />
               <textarea
@@ -252,34 +253,34 @@ export default function TasksPage() {
                 value={taskForm.description}
                 onChange={(e) => setTaskForm({ ...taskForm, description: e.target.value })}
                 rows={3}
-                style={{ ...inputStyle, resize: 'vertical' }}
+                className="input" style={{ resize: 'vertical' }}
               />
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
-                  <label style={labelStyle}>Priority</label>
-                  <select value={taskForm.priority} onChange={(e) => setTaskForm({ ...taskForm, priority: e.target.value })} style={{ ...inputStyle, cursor: 'pointer' }}>
+                  <label className="label">Priority</label>
+                  <select value={taskForm.priority} onChange={(e) => setTaskForm({ ...taskForm, priority: e.target.value })} className="input">
                     {PRIORITIES.map((p) => <option key={p} value={p}>{p}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label style={labelStyle}>Due Date</label>
-                  <input type="date" value={taskForm.dueDate} onChange={(e) => setTaskForm({ ...taskForm, dueDate: e.target.value })} style={inputStyle} />
+                  <label className="label">Due Date</label>
+                  <input type="date" value={taskForm.dueDate} onChange={(e) => setTaskForm({ ...taskForm, dueDate: e.target.value })} className="input" />
                 </div>
               </div>
               {sections.length > 0 && (
                 <div>
-                  <label style={labelStyle}>Section</label>
-                  <select value={taskForm.sectionId} onChange={(e) => setTaskForm({ ...taskForm, sectionId: e.target.value })} style={{ ...inputStyle, cursor: 'pointer' }}>
+                  <label className="label">Section</label>
+                  <select value={taskForm.sectionId} onChange={(e) => setTaskForm({ ...taskForm, sectionId: e.target.value })} className="input">
                     <option value="">No section</option>
                     {sections.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
                   </select>
                 </div>
               )}
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
-                {editTaskId ? <button onClick={deleteTask} style={btnStyle('danger')}><Trash2 size={14} /> Delete</button> : <div />}
+                {editTaskId ? <button onClick={deleteTask} className="btn btn-danger"><Trash2 size={14} /> Delete</button> : <div />}
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <button onClick={() => setShowTaskModal(false)} style={btnStyle('secondary')}>Cancel</button>
-                  <button onClick={saveTask} style={btnStyle('primary')}>Save</button>
+                  <button onClick={() => setShowTaskModal(false)} className="btn btn-secondary">Cancel</button>
+                  <button onClick={saveTask} className="btn btn-primary">Save</button>
                 </div>
               </div>
             </div>
@@ -289,11 +290,11 @@ export default function TasksPage() {
 
       {/* Section Modal */}
       {showSectionModal && (
-        <div style={overlayStyle} onClick={(e) => e.target === e.currentTarget && setShowSectionModal(false)}>
-          <div style={modalStyle}>
+        <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && setShowSectionModal(false)}>
+          <div className="modal">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
               <h3 style={{ fontWeight: '700', fontSize: '1rem' }}>{editSectionId ? 'Edit Section' : 'New Section'}</h3>
-              <button onClick={() => setShowSectionModal(false)} style={iconBtnStyle}><X size={16} /></button>
+              <button onClick={() => setShowSectionModal(false)} className="icon-btn"><X size={16} /></button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <input
@@ -301,14 +302,14 @@ export default function TasksPage() {
                 value={sectionForm.name}
                 onChange={(e) => setSectionForm({ name: e.target.value })}
                 onKeyDown={(e) => e.key === 'Enter' && saveSection()}
-                style={inputStyle}
+                className="input"
                 autoFocus
               />
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                {editSectionId ? <button onClick={deleteSection} style={btnStyle('danger')}><Trash2 size={14} /> Delete</button> : <div />}
+                {editSectionId ? <button onClick={deleteSection} className="btn btn-danger"><Trash2 size={14} /> Delete</button> : <div />}
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <button onClick={() => setShowSectionModal(false)} style={btnStyle('secondary')}>Cancel</button>
-                  <button onClick={saveSection} style={btnStyle('primary')}>Save</button>
+                  <button onClick={() => setShowSectionModal(false)} className="btn btn-secondary">Cancel</button>
+                  <button onClick={saveSection} className="btn btn-primary">Save</button>
                 </div>
               </div>
             </div>
@@ -326,11 +327,10 @@ function TaskCard({ task, onToggle, onEdit, formatDate }) {
   return (
     <div
       onClick={() => onEdit(task)}
+      className="card-row"
       style={{
         display: 'flex', alignItems: 'center', gap: '10px',
         padding: '9px 12px', borderRadius: '8px',
-        background: 'var(--surface)', border: '1px solid var(--border)',
-        cursor: 'pointer',
       }}
     >
       {/* Checkbox */}
@@ -389,29 +389,11 @@ function AddTaskInline({ onAdd }) {
   return (
     <button
       onClick={onAdd}
-      style={{
-        display: 'flex', alignItems: 'center', gap: '6px',
-        background: 'transparent', border: 'none',
-        color: 'var(--text-muted)', cursor: 'pointer',
-        fontSize: '0.83rem', padding: '6px 4px', marginTop: '2px',
-        width: '100%', textAlign: 'left',
-      }}
+      className="ghost-btn"
+      style={{ width: '100%', marginTop: '2px' }}
     >
       <Plus size={14} /> Add task
     </button>
   );
 }
 
-function btnStyle(variant) {
-  const base = { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '500', cursor: 'pointer', border: '1px solid transparent' };
-  if (variant === 'primary') return { ...base, background: 'var(--accent)', color: '#fff' };
-  if (variant === 'secondary') return { ...base, background: 'var(--surface-2)', color: 'var(--text)', border: '1px solid var(--border)' };
-  if (variant === 'danger') return { ...base, background: 'transparent', color: 'var(--danger)', border: '1px solid var(--danger)' };
-  return base;
-}
-
-const overlayStyle = { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 };
-const modalStyle = { background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '14px', padding: '24px', width: '440px', maxWidth: '95vw' };
-const inputStyle = { width: '100%', padding: '9px 12px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text)', fontSize: '0.875rem', outline: 'none' };
-const labelStyle = { fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' };
-const iconBtnStyle = { background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px' };

@@ -91,7 +91,7 @@ export default function SheetsTab() {
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <h3 style={{ fontWeight: '600', color: 'var(--text-muted)', fontSize: '0.95rem' }}>Budget Sheets</h3>
-          <button onClick={() => setShowNewSheet(true)} style={btnStyle('primary')}>
+          <button onClick={() => setShowNewSheet(true)} className="btn btn-primary">
             <Plus size={15} /> New Sheet
           </button>
         </div>
@@ -104,10 +104,10 @@ export default function SheetsTab() {
               value={newSheetName}
               onChange={(e) => setNewSheetName(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && createSheet()}
-              style={{ ...inputStyle, flex: 1 }}
+              className="input" style={{ flex: 1 }}
             />
-            <button onClick={createSheet} style={btnStyle('primary')}>Create</button>
-            <button onClick={() => setShowNewSheet(false)} style={btnStyle('secondary')}>Cancel</button>
+            <button onClick={createSheet} className="btn btn-primary">Create</button>
+            <button onClick={() => setShowNewSheet(false)} className="btn btn-secondary">Cancel</button>
           </div>
         )}
 
@@ -124,11 +124,13 @@ export default function SheetsTab() {
               <div
                 key={sheet.id}
                 onClick={() => setSelectedId(sheet.id)}
-                style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px', padding: '18px', cursor: 'pointer', position: 'relative' }}
+                className="card-row"
+                style={{ borderRadius: '12px', padding: '18px', position: 'relative' }}
               >
                 <button
                   onClick={(e) => { e.stopPropagation(); deleteSheet(sheet); }}
-                  style={{ position: 'absolute', top: '12px', right: '12px', background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '2px' }}
+                  className="icon-btn"
+                  style={{ position: 'absolute', top: '12px', right: '12px', padding: '2px' }}
                 >
                   <Trash2 size={14} />
                 </button>
@@ -168,13 +170,14 @@ export default function SheetsTab() {
     <div>
       {/* Back + title */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-        <button onClick={() => setSelectedId(null)} style={iconBtnStyle}>
+        <button onClick={() => setSelectedId(null)} className="icon-btn">
           <ChevronLeft size={20} />
         </button>
         <input
           value={selected.name}
           onChange={(e) => renameSheet(e.target.value)}
-          style={{ background: 'transparent', border: 'none', color: 'var(--text)', fontSize: '1.2rem', fontWeight: '700', outline: 'none', flex: 1 }}
+          className="bare-input"
+          style={{ fontSize: '1.2rem', fontWeight: '700', flex: 1, padding: '2px 6px' }}
         />
       </div>
 
@@ -185,7 +188,7 @@ export default function SheetsTab() {
           { label: 'Total Expenses', value: fmt(expenses), color: '#ef4444' },
           { label: 'Balance', value: fmt(balance), color: balance >= 0 ? '#6366f1' : '#ef4444' },
         ].map((c) => (
-          <div key={c.label} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '10px', padding: '14px 16px' }}>
+          <div key={c.label} className="card" style={{ borderRadius: '10px', padding: '14px 16px' }}>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '6px' }}>{c.label}</div>
             <div style={{ fontSize: '1.3rem', fontWeight: '800', color: c.color }}>{c.value}</div>
           </div>
@@ -193,7 +196,7 @@ export default function SheetsTab() {
       </div>
 
       {/* Table */}
-      <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
+      <div className="card" style={{ overflow: 'hidden' }}>
         {/* Header */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 160px 140px 36px', background: 'var(--surface-2)', padding: '10px 16px', borderBottom: '1px solid var(--border)' }}>
           {['Label', 'Type', 'Amount', ''].map((h) => (
@@ -243,7 +246,7 @@ export default function SheetsTab() {
 
         {/* Add row */}
         <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border)' }}>
-          <button onClick={addRow} style={{ ...btnStyle('secondary'), fontSize: '0.8rem', padding: '6px 12px' }}>
+          <button onClick={addRow} className="btn btn-secondary" style={{ fontSize: '0.8rem', padding: '6px 12px' }}>
             <Plus size={13} /> Add Row
           </button>
         </div>
@@ -268,7 +271,8 @@ function SheetRow({ row, onUpdate, onDelete }) {
         value={label}
         onChange={(e) => setLabel(e.target.value)}
         onBlur={() => onUpdate({ label })}
-        style={{ background: 'transparent', border: 'none', color: 'var(--text)', fontSize: '0.875rem', outline: 'none', padding: '11px 0' }}
+        className="bare-input"
+        style={{ fontSize: '0.875rem', padding: '11px 6px' }}
       />
       <div style={{ display: 'flex', gap: '4px' }}>
         {['revenue', 'expense'].map((t) => (
@@ -294,21 +298,13 @@ function SheetRow({ row, onUpdate, onDelete }) {
         onChange={(e) => setAmount(e.target.value)}
         onBlur={() => onUpdate({ amount: parseFloat(amount) || 0 })}
         placeholder="0.00"
-        style={{ background: 'transparent', border: 'none', color: 'var(--text)', fontSize: '0.875rem', fontWeight: '600', outline: 'none', padding: '11px 0', textAlign: 'right', paddingRight: '12px' }}
+        className="bare-input"
+        style={{ fontSize: '0.875rem', fontWeight: '600', padding: '11px 12px 11px 6px', textAlign: 'right' }}
       />
-      <button onClick={onDelete} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px' }}>
+      <button onClick={onDelete} className="icon-btn">
         <X size={14} />
       </button>
     </div>
   );
 }
 
-function btnStyle(variant) {
-  const base = { display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '500', cursor: 'pointer', border: '1px solid transparent' };
-  if (variant === 'primary') return { ...base, background: 'var(--accent)', color: '#fff' };
-  if (variant === 'secondary') return { ...base, background: 'var(--surface-2)', color: 'var(--text)', border: '1px solid var(--border)' };
-  return base;
-}
-
-const inputStyle = { width: '100%', padding: '9px 12px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text)', fontSize: '0.875rem', outline: 'none' };
-const iconBtnStyle = { background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' };

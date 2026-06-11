@@ -195,7 +195,7 @@ export default function ProjectsPage() {
             <h2 style={{ fontSize: '1.1rem', fontWeight: '700' }}>Projects</h2>
             <button
               onClick={() => { setProjectForm(emptyProject); setEditProjectId(null); setShowProjectModal(true); }}
-              style={iconBtnStyle}
+              className="icon-btn"
               title="New project"
             >
               <Plus size={18} />
@@ -212,11 +212,11 @@ export default function ProjectsPage() {
             <div
               key={p.id}
               onClick={() => setSelectedProject(p)}
+              className={selectedProject?.id === p.id ? 'list-item active' : 'list-item'}
               style={{
-                padding: '10px 12px', borderRadius: '8px', cursor: 'pointer',
-                background: selectedProject?.id === p.id ? 'var(--surface-2)' : 'transparent',
+                padding: '10px 12px',
                 borderLeft: `3px solid ${p.color || '#6366f1'}`,
-                marginBottom: '4px', transition: 'background 0.1s',
+                marginBottom: '4px',
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               }}
             >
@@ -230,7 +230,7 @@ export default function ProjectsPage() {
                   setEditProjectId(p.id);
                   setShowProjectModal(true);
                 }}
-                style={{ ...iconBtnStyle, padding: '2px' }}
+                className="icon-btn" style={{ padding: '2px' }}
               >
                 <X size={12} />
               </button>
@@ -247,7 +247,7 @@ export default function ProjectsPage() {
           <div style={{ marginBottom: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
               {isMobile && (
-                <button onClick={() => setSelectedProject(null)} style={iconBtnStyle} title="Back">
+                <button onClick={() => setSelectedProject(null)} className="icon-btn" title="Back">
                   <ArrowLeft size={18} />
                 </button>
               )}
@@ -277,7 +277,7 @@ export default function ProjectsPage() {
               </h3>
               <button
                 onClick={() => { setSprintForm(emptySprint); setEditSprintId(null); setShowSprintModal(true); }}
-                style={btnStyle('secondary')}
+                className="btn btn-secondary"
               >
                 <Plus size={14} /> Add Sprint
               </button>
@@ -292,7 +292,7 @@ export default function ProjectsPage() {
               const isOpen = expandedSprint === sprint.id;
               const sprintTasks = projectTasks.filter((t) => t.sprintId === sprint.id);
               return (
-                <div key={sprint.id} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '10px', marginBottom: '10px', overflow: 'hidden' }}>
+                <div key={sprint.id} className="card" style={{ borderRadius: '10px', marginBottom: '10px', overflow: 'hidden' }}>
                   {/* Sprint header */}
                   <div
                     style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
@@ -326,7 +326,7 @@ export default function ProjectsPage() {
                         setEditSprintId(sprint.id);
                         setShowSprintModal(true);
                       }}
-                      style={{ ...iconBtnStyle, padding: '4px' }}
+                      className="icon-btn"
                     >
                       <X size={14} />
                     </button>
@@ -355,7 +355,7 @@ export default function ProjectsPage() {
                       ))}
                       <button
                         onClick={() => { setTaskForm(emptyTask); setEditTaskId(null); setTaskSprintId(sprint.id); setShowTaskModal(true); }}
-                        style={{ ...btnStyle('secondary'), marginTop: '6px', fontSize: '0.8rem', padding: '5px 10px' }}
+                        className="btn btn-secondary" style={{ marginTop: '6px', fontSize: '0.8rem', padding: '5px 10px' }}
                       >
                         <Plus size={13} /> Add task
                       </button>
@@ -372,7 +372,7 @@ export default function ProjectsPage() {
               <h3 style={{ fontWeight: '600', fontSize: '1rem' }}>Backlog</h3>
               <button
                 onClick={() => { setTaskForm(emptyTask); setEditTaskId(null); setTaskSprintId(null); setShowTaskModal(true); }}
-                style={btnStyle('secondary')}
+                className="btn btn-secondary"
               >
                 <Plus size={14} /> Add Task
               </button>
@@ -400,7 +400,7 @@ export default function ProjectsPage() {
           <p>Select a project or create one</p>
           <button
             onClick={() => { setProjectForm(emptyProject); setEditProjectId(null); setShowProjectModal(true); }}
-            style={btnStyle('primary')}
+            className="btn btn-primary"
           >
             <Plus size={15} /> New Project
           </button>
@@ -410,13 +410,13 @@ export default function ProjectsPage() {
       {/* Project Modal */}
       {showProjectModal && (
         <Modal onClose={() => setShowProjectModal(false)} title={editProjectId ? 'Edit Project' : 'New Project'}>
-          <input placeholder="Project name *" value={projectForm.name} onChange={(e) => setProjectForm({ ...projectForm, name: e.target.value })} style={inputStyle} autoFocus />
-          <textarea placeholder="Description (optional)" value={projectForm.description} onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })} rows={2} style={{ ...inputStyle, resize: 'vertical' }} />
+          <input placeholder="Project name *" value={projectForm.name} onChange={(e) => setProjectForm({ ...projectForm, name: e.target.value })} className="input" autoFocus />
+          <textarea placeholder="Description (optional)" value={projectForm.description} onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })} rows={2} className="input" style={{ resize: 'vertical' }} />
           <div>
-            <label style={labelStyle}>Color</label>
+            <label className="label">Color</label>
             <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
               {PROJECT_COLORS.map((c) => (
-                <button key={c} onClick={() => setProjectForm({ ...projectForm, color: c })} style={{ width: '22px', height: '22px', borderRadius: '50%', background: c, border: projectForm.color === c ? '2px solid white' : '2px solid transparent', cursor: 'pointer' }} />
+                <button key={c} onClick={() => setProjectForm({ ...projectForm, color: c })} className={projectForm.color === c ? 'swatch active' : 'swatch'} style={{ background: c }} />
               ))}
             </div>
           </div>
@@ -431,16 +431,16 @@ export default function ProjectsPage() {
       {/* Sprint Modal */}
       {showSprintModal && (
         <Modal onClose={() => setShowSprintModal(false)} title={editSprintId ? 'Edit Sprint' : 'New Sprint'}>
-          <input placeholder="Sprint name *" value={sprintForm.name} onChange={(e) => setSprintForm({ ...sprintForm, name: e.target.value })} style={inputStyle} autoFocus />
-          <input placeholder="Sprint goal (optional)" value={sprintForm.goal} onChange={(e) => setSprintForm({ ...sprintForm, goal: e.target.value })} style={inputStyle} />
+          <input placeholder="Sprint name *" value={sprintForm.name} onChange={(e) => setSprintForm({ ...sprintForm, name: e.target.value })} className="input" autoFocus />
+          <input placeholder="Sprint goal (optional)" value={sprintForm.goal} onChange={(e) => setSprintForm({ ...sprintForm, goal: e.target.value })} className="input" />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             <div>
-              <label style={labelStyle}>Start</label>
-              <input type="date" value={sprintForm.startDate} onChange={(e) => setSprintForm({ ...sprintForm, startDate: e.target.value })} style={inputStyle} />
+              <label className="label">Start</label>
+              <input type="date" value={sprintForm.startDate} onChange={(e) => setSprintForm({ ...sprintForm, startDate: e.target.value })} className="input" />
             </div>
             <div>
-              <label style={labelStyle}>End</label>
-              <input type="date" value={sprintForm.endDate} onChange={(e) => setSprintForm({ ...sprintForm, endDate: e.target.value })} style={inputStyle} />
+              <label className="label">End</label>
+              <input type="date" value={sprintForm.endDate} onChange={(e) => setSprintForm({ ...sprintForm, endDate: e.target.value })} className="input" />
             </div>
           </div>
           <ModalActions onCancel={() => setShowSprintModal(false)} onSave={saveSprint} onDelete={editSprintId ? deleteSprint : null} />
@@ -450,17 +450,17 @@ export default function ProjectsPage() {
       {/* Task Modal */}
       {showTaskModal && (
         <Modal onClose={() => setShowTaskModal(false)} title={editTaskId ? 'Edit Task' : 'New Task'}>
-          <input placeholder="Task title *" value={taskForm.title} onChange={(e) => setTaskForm({ ...taskForm, title: e.target.value })} style={inputStyle} autoFocus />
+          <input placeholder="Task title *" value={taskForm.title} onChange={(e) => setTaskForm({ ...taskForm, title: e.target.value })} className="input" autoFocus />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             <div>
-              <label style={labelStyle}>Status</label>
-              <select value={taskForm.status} onChange={(e) => setTaskForm({ ...taskForm, status: e.target.value })} style={{ ...inputStyle, cursor: 'pointer' }}>
+              <label className="label">Status</label>
+              <select value={taskForm.status} onChange={(e) => setTaskForm({ ...taskForm, status: e.target.value })} className="input">
                 {TASK_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
             <div>
-              <label style={labelStyle}>Priority</label>
-              <select value={taskForm.priority} onChange={(e) => setTaskForm({ ...taskForm, priority: e.target.value })} style={{ ...inputStyle, cursor: 'pointer' }}>
+              <label className="label">Priority</label>
+              <select value={taskForm.priority} onChange={(e) => setTaskForm({ ...taskForm, priority: e.target.value })} className="input">
                 {['low', 'medium', 'high'].map((p) => <option key={p} value={p}>{p}</option>)}
               </select>
             </div>
@@ -468,8 +468,8 @@ export default function ProjectsPage() {
           {/* Sprint assignment */}
           {sprints.length > 0 && (
             <div>
-              <label style={labelStyle}>Assign to Sprint</label>
-              <select value={taskSprintId || ''} onChange={(e) => setTaskSprintId(e.target.value || null)} style={{ ...inputStyle, cursor: 'pointer' }}>
+              <label className="label">Assign to Sprint</label>
+              <select value={taskSprintId || ''} onChange={(e) => setTaskSprintId(e.target.value || null)} className="input">
                 <option value="">Backlog</option>
                 {sprints.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
               </select>
@@ -487,10 +487,11 @@ function TaskRow({ task, onCycle, onEdit }) {
   const statusColor = { todo: '#888', 'in progress': '#6366f1', done: '#22c55e' };
   return (
     <div
+      className="hover-row"
       style={{
         display: 'flex', alignItems: 'center', gap: '10px',
-        padding: '8px 4px', borderBottom: '1px solid var(--border)',
-        cursor: 'pointer',
+        padding: '8px 6px', borderBottom: '1px solid var(--border)',
+        borderRadius: '6px',
       }}
       onClick={onEdit}
     >
@@ -523,11 +524,11 @@ function TaskRow({ task, onCycle, onEdit }) {
 
 function Modal({ onClose, title, children }) {
   return (
-    <div style={overlayStyle} onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div style={modalStyle}>
+    <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="modal">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <h3 style={{ fontWeight: '600', fontSize: '1rem' }}>{title}</h3>
-          <button onClick={onClose} style={iconBtnStyle}><X size={16} /></button>
+          <button onClick={onClose} className="icon-btn"><X size={16} /></button>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>{children}</div>
       </div>
@@ -539,44 +540,13 @@ function ModalActions({ onCancel, onSave, onDelete }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
       {onDelete ? (
-        <button onClick={onDelete} style={btnStyle('danger')}><Trash2 size={14} /> Delete</button>
+        <button onClick={onDelete} className="btn btn-danger"><Trash2 size={14} /> Delete</button>
       ) : <div />}
       <div style={{ display: 'flex', gap: '8px' }}>
-        <button onClick={onCancel} style={btnStyle('secondary')}>Cancel</button>
-        <button onClick={onSave} style={btnStyle('primary')}>Save</button>
+        <button onClick={onCancel} className="btn btn-secondary">Cancel</button>
+        <button onClick={onSave} className="btn btn-primary">Save</button>
       </div>
     </div>
   );
 }
 
-function btnStyle(variant) {
-  const base = {
-    display: 'flex', alignItems: 'center', gap: '6px',
-    padding: '7px 14px', borderRadius: '8px',
-    fontSize: '0.85rem', fontWeight: '500',
-    cursor: 'pointer', border: '1px solid transparent',
-  };
-  if (variant === 'primary') return { ...base, background: 'var(--accent)', color: '#fff' };
-  if (variant === 'secondary') return { ...base, background: 'var(--surface-2)', color: 'var(--text)', border: '1px solid var(--border)' };
-  if (variant === 'danger') return { ...base, background: 'transparent', color: 'var(--danger)', border: '1px solid var(--danger)' };
-  return base;
-}
-
-const overlayStyle = {
-  position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)',
-  display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000,
-};
-const modalStyle = {
-  background: 'var(--surface)', border: '1px solid var(--border)',
-  borderRadius: '14px', padding: '24px', width: '480px', maxWidth: '95vw',
-};
-const inputStyle = {
-  width: '100%', padding: '9px 12px',
-  background: 'var(--surface-2)', border: '1px solid var(--border)',
-  borderRadius: '8px', color: 'var(--text)', fontSize: '0.875rem', outline: 'none',
-};
-const labelStyle = { fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' };
-const iconBtnStyle = {
-  background: 'transparent', border: 'none', color: 'var(--text-muted)',
-  cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px',
-};

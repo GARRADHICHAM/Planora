@@ -48,12 +48,10 @@ export default function Sidebar() {
           <button
             onClick={toggle}
             title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="icon-btn"
             style={{
-              width: '30px', height: '30px', borderRadius: '8px',
+              width: '30px', height: '30px',
               background: 'var(--surface-2)', border: '1px solid var(--border)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: 'var(--text-muted)',
-              transition: 'all 0.15s',
             }}
           >
             {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
@@ -69,16 +67,7 @@ export default function Sidebar() {
             <Link
               key={href}
               href={href}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '9px',
-                padding: '8px 12px', borderRadius: '9px',
-                textDecoration: 'none', fontSize: '0.855rem',
-                fontWeight: active ? '600' : '400',
-                color: active ? 'var(--text)' : 'var(--text-muted)',
-                background: active ? 'var(--surface-2)' : 'transparent',
-                transition: 'all 0.12s',
-                position: 'relative',
-              }}
+              className={active ? 'nav-link active' : 'nav-link'}
             >
               {active && (
                 <span style={{
@@ -124,14 +113,8 @@ export default function Sidebar() {
           </div>
           <button
             onClick={handleLogout}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '8px',
-              width: '100%', padding: '7px 10px', borderRadius: '8px',
-              background: 'transparent', border: 'none',
-              color: 'var(--text-muted)', fontSize: '0.82rem',
-              cursor: 'pointer',
-              transition: 'all 0.12s',
-            }}
+            className="ghost-btn"
+            style={{ width: '100%', padding: '7px 10px', fontSize: '0.82rem' }}
           >
             <LogOut size={13} /> Sign out
           </button>

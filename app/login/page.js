@@ -63,10 +63,9 @@ export default function LoginPage() {
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
       background: 'var(--background)',
     }}>
-      <div style={{
-        width: '380px', background: 'var(--surface)',
-        border: '1px solid var(--border)', borderRadius: '16px',
-        padding: '36px 32px',
+      <div className="card" style={{
+        width: '380px', borderRadius: '16px',
+        padding: '36px 32px', boxShadow: 'var(--shadow-lg)',
       }}>
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
@@ -82,7 +81,7 @@ export default function LoginPage() {
         </div>
 
         {/* Google */}
-        <button onClick={handleGoogle} disabled={loading} style={googleBtnStyle}>
+        <button onClick={handleGoogle} disabled={loading} className="btn btn-secondary" style={{ width: '100%', padding: '11px', gap: '10px' }}>
           <GoogleIcon />
           Continue with Google
         </button>
@@ -101,7 +100,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={inputStyle}
+            className="input" style={{ padding: '10px 14px' }}
           />
           <input
             type="password"
@@ -109,16 +108,16 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={inputStyle}
+            className="input" style={{ padding: '10px 14px' }}
           />
 
           {error && (
-            <p style={{ fontSize: '0.8rem', color: 'var(--danger)', background: '#ef444418', padding: '8px 12px', borderRadius: '6px' }}>
+            <p style={{ fontSize: '0.8rem', color: 'var(--danger)', background: 'var(--danger-bg)', padding: '8px 12px', borderRadius: '6px' }}>
               {error}
             </p>
           )}
 
-          <button type="submit" disabled={loading} style={primaryBtnStyle}>
+          <button type="submit" disabled={loading} className="btn btn-primary" style={{ width: '100%', padding: '11px', fontSize: '0.9rem', fontWeight: '600' }}>
             {loading ? 'Please wait...' : mode === 'login' ? 'Sign In' : 'Create Account'}
           </button>
         </form>
@@ -148,23 +147,3 @@ function GoogleIcon() {
   );
 }
 
-const inputStyle = {
-  width: '100%', padding: '10px 14px',
-  background: 'var(--surface-2)', border: '1px solid var(--border)',
-  borderRadius: '8px', color: 'var(--text)', fontSize: '0.875rem', outline: 'none',
-};
-
-const primaryBtnStyle = {
-  width: '100%', padding: '11px',
-  background: 'var(--accent)', color: '#fff',
-  border: 'none', borderRadius: '8px',
-  fontSize: '0.9rem', fontWeight: '600', cursor: 'pointer',
-};
-
-const googleBtnStyle = {
-  width: '100%', padding: '11px',
-  background: 'var(--surface-2)', color: 'var(--text)',
-  border: '1px solid var(--border)', borderRadius: '8px',
-  fontSize: '0.875rem', fontWeight: '500', cursor: 'pointer',
-  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
-};

@@ -206,22 +206,22 @@ export default function CalendarPage() {
         <h2 style={{ fontSize: '1.2rem', fontWeight: '700' }}>Calendar</h2>
         <div style={{ display: 'flex', gap: '8px' }}>
           {imports.length > 0 && (
-            <button onClick={() => setShowImportsPanel(true)} style={btnStyle('secondary')}>
+            <button onClick={() => setShowImportsPanel(true)} className="btn btn-secondary">
               <CalendarDays size={15} /> Imported ({imports.length})
             </button>
           )}
-          <button onClick={() => fileRef.current?.click()} style={btnStyle('secondary')}>
+          <button onClick={() => fileRef.current?.click()} className="btn btn-secondary">
             <Upload size={15} /> Import .ics
           </button>
           <input ref={fileRef} type="file" accept=".ics,.vcs" style={{ display: 'none' }} onChange={handleICSImport} />
-          <button onClick={() => openNew({})} style={btnStyle('primary')}>
+          <button onClick={() => openNew({})} className="btn btn-primary">
             <Plus size={15} /> Add Event
           </button>
         </div>
       </div>
 
       {/* Calendar */}
-      <div style={{ flex: 1, background: 'var(--surface)', borderRadius: '12px', padding: '16px', overflow: 'hidden' }}>
+      <div className="card" style={{ flex: 1, padding: '16px', overflow: 'hidden' }}>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
           initialView={isMobile ? 'listWeek' : 'timeGridWeek'}
@@ -248,11 +248,11 @@ export default function CalendarPage() {
 
       {/* Event Modal */}
       {showModal && (
-        <div style={overlayStyle} onClick={(e) => e.target === e.currentTarget && setShowModal(false)}>
-          <div style={modalStyle}>
+        <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && setShowModal(false)}>
+          <div className="modal">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ fontWeight: '600', fontSize: '1rem' }}>{editId ? 'Edit Event' : 'New Event'}</h3>
-              <button onClick={() => setShowModal(false)} style={iconBtnStyle}><X size={16} /></button>
+              <button onClick={() => setShowModal(false)} className="icon-btn"><X size={16} /></button>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -261,13 +261,7 @@ export default function CalendarPage() {
                   <button
                     key={t}
                     onClick={() => setForm({ ...form, type: t })}
-                    style={{
-                      padding: '5px 14px', borderRadius: '20px',
-                      border: '1px solid var(--border)',
-                      background: form.type === t ? 'var(--accent)' : 'transparent',
-                      color: form.type === t ? '#fff' : 'var(--text-muted)',
-                      fontSize: '0.8rem', cursor: 'pointer', textTransform: 'capitalize',
-                    }}
+                    className={form.type === t ? 'chip active' : 'chip'}
                   >
                     {t}
                   </button>
@@ -278,17 +272,17 @@ export default function CalendarPage() {
                 placeholder="Title *"
                 value={form.title}
                 onChange={(e) => setForm({ ...form, title: e.target.value })}
-                style={inputStyle}
+                className="input"
               />
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
-                  <label style={labelStyle}>Start</label>
-                  <input type="datetime-local" value={form.start} onChange={(e) => setForm({ ...form, start: e.target.value })} style={inputStyle} />
+                  <label className="label">Start</label>
+                  <input type="datetime-local" value={form.start} onChange={(e) => setForm({ ...form, start: e.target.value })} className="input" />
                 </div>
                 <div>
-                  <label style={labelStyle}>End</label>
-                  <input type="datetime-local" value={form.end} onChange={(e) => setForm({ ...form, end: e.target.value })} style={inputStyle} />
+                  <label className="label">End</label>
+                  <input type="datetime-local" value={form.end} onChange={(e) => setForm({ ...form, end: e.target.value })} className="input" />
                 </div>
               </div>
 
@@ -298,18 +292,15 @@ export default function CalendarPage() {
               </label>
 
               <div>
-                <label style={labelStyle}>Color</label>
+                <label className="label">Color</label>
                 <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
                   {EVENT_COLORS.map((c) => (
                     <button
                       key={c.value}
                       onClick={() => setForm({ ...form, color: c.value })}
                       title={c.label}
-                      style={{
-                        width: '24px', height: '24px', borderRadius: '50%',
-                        background: c.value, border: form.color === c.value ? '2px solid white' : '2px solid transparent',
-                        cursor: 'pointer',
-                      }}
+                      className={form.color === c.value ? 'swatch active' : 'swatch'}
+                      style={{ width: '24px', height: '24px', background: c.value }}
                     />
                   ))}
                 </div>
@@ -320,16 +311,16 @@ export default function CalendarPage() {
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                 rows={3}
-                style={{ ...inputStyle, resize: 'vertical' }}
+                className="input" style={{ resize: 'vertical' }}
               />
 
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
                 {editId ? (
-                  <button onClick={deleteEvent} style={btnStyle('danger')}><Trash2 size={14} /> Delete</button>
+                  <button onClick={deleteEvent} className="btn btn-danger"><Trash2 size={14} /> Delete</button>
                 ) : <div />}
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <button onClick={() => setShowModal(false)} style={btnStyle('secondary')}>Cancel</button>
-                  <button onClick={saveEvent} style={btnStyle('primary')}>Save</button>
+                  <button onClick={() => setShowModal(false)} className="btn btn-secondary">Cancel</button>
+                  <button onClick={saveEvent} className="btn btn-primary">Save</button>
                 </div>
               </div>
             </div>
@@ -339,11 +330,11 @@ export default function CalendarPage() {
 
       {/* Imported Calendars Panel */}
       {showImportsPanel && (
-        <div style={overlayStyle} onClick={(e) => e.target === e.currentTarget && setShowImportsPanel(false)}>
-          <div style={modalStyle}>
+        <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && setShowImportsPanel(false)}>
+          <div className="modal">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ fontWeight: '600', fontSize: '1rem' }}>Imported Calendars</h3>
-              <button onClick={() => setShowImportsPanel(false)} style={iconBtnStyle}><X size={16} /></button>
+              <button onClick={() => setShowImportsPanel(false)} className="icon-btn"><X size={16} /></button>
             </div>
 
             {imports.length === 0 ? (
@@ -368,11 +359,8 @@ export default function CalendarPage() {
                     <button
                       onClick={() => deleteImport(imp)}
                       disabled={deletingImportId === imp.id}
-                      style={{
-                        ...btnStyle('danger'),
-                        opacity: deletingImportId === imp.id ? 0.5 : 1,
-                        fontSize: '0.8rem', padding: '5px 10px',
-                      }}
+                      className="btn btn-danger"
+                      style={{ fontSize: '0.8rem', padding: '5px 10px' }}
                     >
                       <Trash2 size={13} />
                       {deletingImportId === imp.id ? 'Deleting...' : 'Delete'}
@@ -388,38 +376,3 @@ export default function CalendarPage() {
   );
 }
 
-function btnStyle(variant) {
-  const base = {
-    display: 'flex', alignItems: 'center', gap: '6px',
-    padding: '7px 14px', borderRadius: '8px',
-    fontSize: '0.85rem', fontWeight: '500',
-    cursor: 'pointer', border: '1px solid transparent',
-  };
-  if (variant === 'primary') return { ...base, background: 'var(--accent)', color: '#fff' };
-  if (variant === 'secondary') return { ...base, background: 'var(--surface-2)', color: 'var(--text)', border: '1px solid var(--border)' };
-  if (variant === 'danger') return { ...base, background: 'transparent', color: 'var(--danger)', border: '1px solid var(--danger)' };
-  return base;
-}
-
-const overlayStyle = {
-  position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)',
-  display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000,
-};
-
-const modalStyle = {
-  background: 'var(--surface)', border: '1px solid var(--border)',
-  borderRadius: '14px', padding: '24px', width: '480px', maxWidth: '95vw',
-};
-
-const inputStyle = {
-  width: '100%', padding: '9px 12px',
-  background: 'var(--surface-2)', border: '1px solid var(--border)',
-  borderRadius: '8px', color: 'var(--text)', fontSize: '0.875rem', outline: 'none',
-};
-
-const labelStyle = { fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' };
-
-const iconBtnStyle = {
-  background: 'transparent', border: 'none', color: 'var(--text-muted)',
-  cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px',
-};

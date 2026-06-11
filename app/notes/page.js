@@ -109,7 +109,7 @@ export default function NotesPage() {
           <div style={{ padding: '20px 16px 12px', borderBottom: '1px solid var(--border)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
               <h2 style={{ fontSize: '1.1rem', fontWeight: '700' }}>Notes</h2>
-              <button onClick={createNote} style={iconBtnStyle} title="New note">
+              <button onClick={createNote} className="icon-btn" title="New note">
                 <Plus size={18} />
               </button>
             </div>
@@ -119,7 +119,7 @@ export default function NotesPage() {
                 placeholder="Search..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                style={{ ...inputStyle, paddingLeft: '32px', fontSize: '0.8rem' }}
+                className="input" style={{ paddingLeft: '32px', fontSize: '0.8rem' }}
               />
             </div>
           </div>
@@ -133,11 +133,11 @@ export default function NotesPage() {
               <div
                 key={note.id}
                 onClick={() => openNote(note)}
+                className={selected?.id === note.id ? 'list-item active' : 'list-item'}
                 style={{
-                  padding: '10px 12px', borderRadius: '8px', cursor: 'pointer',
-                  background: selected?.id === note.id ? 'var(--surface-2)' : 'transparent',
+                  padding: '10px 12px',
                   borderLeft: `3px solid ${note.color || NOTE_COLORS[0]}`,
-                  marginBottom: '4px', transition: 'background 0.1s',
+                  marginBottom: '4px',
                 }}
               >
                 <div style={{ fontWeight: '500', fontSize: '0.85rem', marginBottom: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -167,7 +167,7 @@ export default function NotesPage() {
             }}>
               <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
                 {isMobile && (
-                  <button onClick={() => setSelected(null)} style={iconBtnStyle} title="Back">
+                  <button onClick={() => setSelected(null)} className="icon-btn" title="Back">
                     <ArrowLeft size={18} />
                   </button>
                 )}
@@ -175,18 +175,15 @@ export default function NotesPage() {
                   <button
                     key={c}
                     onClick={() => updateColor(c)}
-                    style={{
-                      width: '18px', height: '18px', borderRadius: '50%', background: c,
-                      border: (selected.color || NOTE_COLORS[0]) === c ? '2px solid white' : '2px solid transparent',
-                      cursor: 'pointer',
-                    }}
+                    className={(selected.color || NOTE_COLORS[0]) === c ? 'swatch active' : 'swatch'}
+                    style={{ width: '18px', height: '18px', background: c }}
                   />
                 ))}
               </div>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 {saving && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Saving...</span>}
-                <button onClick={saveNote} style={btnStyle('primary')}>Save</button>
-                <button onClick={deleteNote} style={iconBtnStyle} title="Delete note">
+                <button onClick={saveNote} className="btn btn-primary">Save</button>
+                <button onClick={deleteNote} className="icon-btn" title="Delete note">
                   <Trash2 size={16} style={{ color: 'var(--danger)' }} />
                 </button>
               </div>
@@ -228,7 +225,7 @@ export default function NotesPage() {
         ) : (
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '16px', color: 'var(--text-muted)' }}>
             <p>Select a note or create a new one</p>
-            <button onClick={createNote} style={btnStyle('primary')}><Plus size={15} /> New Note</button>
+            <button onClick={createNote} className="btn btn-primary"><Plus size={15} /> New Note</button>
           </div>
         )
       )}
@@ -236,25 +233,3 @@ export default function NotesPage() {
   );
 }
 
-function btnStyle(variant) {
-  const base = {
-    display: 'flex', alignItems: 'center', gap: '6px',
-    padding: '7px 14px', borderRadius: '8px',
-    fontSize: '0.85rem', fontWeight: '500',
-    cursor: 'pointer', border: '1px solid transparent',
-  };
-  if (variant === 'primary') return { ...base, background: 'var(--accent)', color: '#fff' };
-  if (variant === 'secondary') return { ...base, background: 'var(--surface-2)', color: 'var(--text)', border: '1px solid var(--border)' };
-  return base;
-}
-
-const inputStyle = {
-  width: '100%', padding: '8px 12px',
-  background: 'var(--surface-2)', border: '1px solid var(--border)',
-  borderRadius: '8px', color: 'var(--text)', fontSize: '0.875rem', outline: 'none',
-};
-
-const iconBtnStyle = {
-  background: 'transparent', border: 'none', color: 'var(--text-muted)',
-  cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px',
-};
